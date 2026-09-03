@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#ffffff">
+  <title>Открыть Happ</title>
+  <style>
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;margin:0;background:#f5f5f7;color:#111;display:flex;min-height:100vh;align-items:center;justify-content:center;padding:24px;box-sizing:border-box}
+    .card{background:#fff;border-radius:22px;box-shadow:0 8px 30px rgba(0,0,0,.08);padding:28px;max-width:520px;width:100%;text-align:center}
+    h1{font-size:28px;margin:0 0 12px}.muted{color:#666;line-height:1.45;margin:0 0 24px}
+    button{appearance:none;border:0;border-radius:14px;padding:16px 22px;font-size:18px;font-weight:700;background:#111;color:#fff;width:100%;cursor:pointer}
+    .small{font-size:13px;color:#777;margin-top:18px;line-height:1.4}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Настройка Happ</h1>
+    <p class="muted">Нажмите кнопку ниже. iPhone предложит открыть Happ и добавить готовый профиль маршрутизации.</p>
+    <button id="open">Открыть в Happ</button>
+    <p class="small">Если Happ не открылся автоматически, нажмите кнопку ещё раз.</p>
+  </main>
+<script>
+async function openHapp(){
+  try{
+    const r=await fetch('./happ-link.txt',{cache:'no-store'});
+    const u=(await r.text()).trim();
+    if(!u.startsWith('happ://')) throw new Error('bad link');
+    window.location.href=u;
+  }catch(e){
+    alert('Не удалось открыть профиль. Проверьте интернет и повторите попытку.');
+  }
+}
+document.getElementById('open').addEventListener('click',openHapp);
+setTimeout(openHapp,700);
+</script>
+</body>
+</html>
